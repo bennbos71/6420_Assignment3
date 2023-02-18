@@ -15,9 +15,18 @@
 #include "alg_strings.h"
  
 using namespace std; 
-
+// 2391351234231530542310615
 int main() {
-    cout << "Hello World!" << endl;
+    string txt = "23913"
+                 "51234"
+                 "23153"
+                 "05423"
+                 "10615";
+    string p = "23"
+               "15";
+    RabinKarp rk(p);
+    int location = rk.search(txt);
+    cout << location << endl;
     return 0;
 }
 

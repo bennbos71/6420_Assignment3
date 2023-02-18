@@ -21,19 +21,18 @@ using namespace std;
 // 
 // Version 1.0
 // -----------------------------------------------------------------
-string* compute_prefix(string p){
-    int m = p.length();
+string* compute_prefix(string P){
+    int m = P.length();
     string* pi = new string[m];
     pi[0] = to_string(0);
     int k = 0;
     for (int q = 2; q < m; q++) {
-        while (k > 0 && p[k + 1] != p[q]) {
+        while (k > 0 && P[k + 1] != P[q]) {
             k = stoi(pi[k]);
-            if (p[k + 1] == p[q]) {
-                k = k + 1;
-            }
         }
-        // cout << k << endl;
+        if (P[k + 1] == P[q]) {
+            k = k + 1;
+        }
         pi[q] = k;
     }
     return pi;
@@ -43,10 +42,13 @@ int main() {
     string input = "01111000110101011010";
     string* output = new string[input.length()];
     output = compute_prefix(input);
+
+    cout << input << "--->";
     for (int i = 0; i < input.length(); i++) {
-        cout << output[i] << endl;
+        cout << "[" << output[i] << "]";
     }
-    // cout << compute_prefix(input) << endl;
+    cout << endl;
+
     return 0;
 }
 

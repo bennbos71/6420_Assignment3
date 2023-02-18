@@ -20,12 +20,13 @@ private:
   std::string pat;
   long pat_hash;   // Pattern hash value
   int m;           // Pattern length
+  int m_sqrt;      // Pattern length in 2D
   long q;          // A large prime, small enough to avoid overflow
   int R;           // Radix
   long RM;         // R^(M-1) % Q
 
   long hash(const std::string &key, int m) const;
-  bool check(const std::string &txt, int i) const;
+  bool check(const std::string &txt) const;
 
   static long long_random_prime();
 
