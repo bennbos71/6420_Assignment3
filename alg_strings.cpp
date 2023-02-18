@@ -73,8 +73,8 @@ RabinKarp::RabinKarp(const std::string &pat):pat(pat), R(256) {
 int RabinKarp::search(const std::string &txt) const {
   int n = sqrt(txt.length());
   // change to return -2 instead of n to represent invalid input
-  if (n < m_sqrt) return n;
-  long hashA, hashB;
+  if (n < m) return -2;
+  long hashA, hashB, hasher;
   int j;
   std::string strA1, strA2, strB1, strB2;
   std::string checkStr = "";
@@ -83,19 +83,16 @@ int RabinKarp::search(const std::string &txt) const {
     j = 0;
     strA1 = txt[(i*n)+j];
     strA2 = txt[((i+1)*n)+j];
-    hashA = hash((strA1 + strA2), m_sqrt);
     for (; j < n - m_sqrt + 1; j++) {
       strB1 = txt[(i*n)+(j+1)];
       strB2 = txt[((i+1)*n)+(j+1)];
-      hashB = hash((strB1 + strB2), m_sqrt);
-      std::cout << "A1 [" << strA1 << "] B1 [" << strB1 << "] A2 [" << strA2 << "] B2 [" << strB2  << "]" << std::endl;
-      if (pat_hash == (hashA * hashB)) {
+      hasher = hash((strA1 + strB1 + strA2 + strB2), m);
+      if (pat_hash == hasher) {
         checkStr = strA1 + strB1 + strA2 + strB2;
         if (check(checkStr)) {
           return ((i*n)+j);
         }
       }
-      hashA = hashB;
       strA1 = strB1;
       strA2 = strB2;
     }

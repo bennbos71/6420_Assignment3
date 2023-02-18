@@ -11,6 +11,7 @@
  
 // Compiler directives 
 #include <iostream>
+#include <cmath>
 
 #include "alg_strings.h"
  
@@ -24,9 +25,20 @@ int main() {
                  "10615";
     string p = "23"
                "15";
+    int row, col, tmp;
     RabinKarp rk(p);
     int location = rk.search(txt);
-    cout << location << endl;
+    if (location > -1) {
+        tmp = sqrt(txt.length());
+        row = location / tmp;
+        col = location % tmp;
+        cout << "{" << row << ", " << col << "}" << endl;
+    } else if (location == -1) {
+        cout << "Pattern Not Found" << endl;
+    } else {
+        cout << "Invalid Input" << endl;
+    }
+    // cout << location << endl;
     return 0;
 }
 
