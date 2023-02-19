@@ -12,6 +12,8 @@
 #include <random>
 #include <chrono>
 #include <cmath>
+#include <list>
+#include <queue>
 #include "alg_strings.h"
 
 /******************************************************************************
@@ -72,29 +74,47 @@ RabinKarp::RabinKarp(const std::string &pat):pat(pat), R(256) {
 
 int RabinKarp::search(const std::string &txt) const {
   int n = sqrt(txt.length());
-  // change to return -2 instead of n to represent invalid input
+  std::list<std::queue<std::string>> p_search;
   if (n < m) return -2;
+
+
   long hashA, hashB, hasher;
-  int j;
+  int j, a, b;
   std::string strA1, strA2, strB1, strB2;
   std::string checkStr = "";
-  // check for hash match; if hash match, check for exact match
+
   for (int i = 0; i < n - m_sqrt + 1; i++) {
     j = 0;
-    strA1 = txt[(i*n)+j];
-    strA2 = txt[((i+1)*n)+j];
+    if (!p_search.empty()) {
+      p_search.clear();
+    }
+    a = i;
+    while (a < a + m_sqrt) {
+      p_search[a].push_back(txt[(a*n)]);
+      a++;
+    }
+    j++;
     for (; j < n - m_sqrt + 1; j++) {
-      strB1 = txt[(i*n)+(j+1)];
-      strB2 = txt[((i+1)*n)+(j+1)];
-      hasher = hash((strA1 + strB1 + strA2 + strB2), m);
+      // strB1 = txt[(i*n)+(j+1)];
+      // strB2 = txt[((i+1)*n)+(j+1)];
+      // hasher = hash((strA1 + strB1 + strA2 + strB2), m);
+      a = i;
+      while (a < a + m_sqrt) {
+        b = 0;
+        while (b < b + m_sqrt) {
+          p_search[a].push_back(txt[(a*n)+(j+b)]);
+          b++;
+        }
+        a++;
+      }
       if (pat_hash == hasher) {
-        checkStr = strA1 + strB1 + strA2 + strB2;
+        // checkStr = strA1 + strB1 + strA2 + strB2;
         if (check(checkStr)) {
           return ((i*n)+j);
         }
       }
-      strA1 = strB1;
-      strA2 = strB2;
+      // strA1 = strB1;
+      // strA2 = strB2;
     }
   }
 
