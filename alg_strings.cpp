@@ -12,7 +12,7 @@
 #include <random>
 #include <chrono>
 #include <cmath>
-#include <list>
+#include <vector>
 #include <queue>
 #include "alg_strings.h"
 
@@ -74,37 +74,31 @@ RabinKarp::RabinKarp(const std::string &pat):pat(pat), R(256) {
 
 int RabinKarp::search(const std::string &txt) const {
   int n = sqrt(txt.length());
-  std::list<std::queue<std::string>> p_search;
+  // std::vector<std::vector<std::string>> p_search;
+  std::string* p_search = new std::string[m];
   if (n < m) return -2;
 
 
   long hashA, hashB, hasher;
-  int j, a, b;
+  int j, a, b, z;
   std::string strA1, strA2, strB1, strB2;
   std::string checkStr = "";
 
   for (int i = 0; i < n - m_sqrt + 1; i++) {
     j = 0;
-    if (!p_search.empty()) {
-      p_search.clear();
-    }
-    a = i;
-    while (a < a + m_sqrt) {
-      p_search[a].push_back(txt[(a*n)]);
+    a = 0;
+    while (a < m_sqrt) {
+      p_search[(a*m_sqrt)] = txt[((i+a)*n)];
       a++;
     }
-    j++;
+    // j++;
     for (; j < n - m_sqrt + 1; j++) {
       // strB1 = txt[(i*n)+(j+1)];
       // strB2 = txt[((i+1)*n)+(j+1)];
       // hasher = hash((strA1 + strB1 + strA2 + strB2), m);
-      a = i;
-      while (a < a + m_sqrt) {
-        b = 0;
-        while (b < b + m_sqrt) {
-          p_search[a].push_back(txt[(a*n)+(j+b)]);
-          b++;
-        }
+      a = 0;
+      while (a < m_sqrt) {
+        p_search[(a*m_sqrt)+(j+a)] = txt[((i+a)*n)+(j+a)];
         a++;
       }
       if (pat_hash == hasher) {
@@ -113,8 +107,15 @@ int RabinKarp::search(const std::string &txt) const {
           return ((i*n)+j);
         }
       }
-      // strA1 = strB1;
-      // strA2 = strB2;
+      a = 0;
+      while (a < (sizeof(p_search)/sizeof(p_search[0]))) {
+        p_search[a] = p_search[a+1];
+        p_search[a+1] = "";
+        a++;
+        if ((a+1) % m_sqrt == 0) {
+          a++;
+        }
+      }
     }
   }
 
