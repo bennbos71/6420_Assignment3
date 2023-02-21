@@ -11,7 +11,9 @@
  
 // Compiler directives 
 #include <iostream>
+#include <fstream>
 #include <cmath>
+#include <time.h>
 
 #include "alg_strings.h"
  
@@ -43,6 +45,7 @@ void rk_alg(string txt, string p) {
 }
 
 void print_txt_pattern(string txt, string p, int txt_size, int p_size) {
+    cout << endl;
     cout << "Text: ";
     for (int i = 0; i < txt.length(); i++) {
         if (i % txt_size == 0) {
@@ -51,6 +54,7 @@ void print_txt_pattern(string txt, string p, int txt_size, int p_size) {
         cout << txt[i];
     }
     cout << endl;
+    cout << endl;
     cout << "Pattern: ";
     for (int i = 0; i < p.length(); i++) {
         if (i % p_size == 0) {
@@ -58,38 +62,71 @@ void print_txt_pattern(string txt, string p, int txt_size, int p_size) {
         }
         cout << p[i];
     }
-    cout << endl;
+    cout << endl << endl;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Run-Time Analysis///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// I determined my code to run at O((n-R)m).  My reasoning is because every element area in the
+// matrix is checked, minus the area to account for the radix (R), and you do that m times (for
+// every area of size m)
+
 int main() {
-    string txt = "2391351234231530542310615";
-    string p = "2315";
-    // print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
-    // rk_alg(txt,p);
-
-    // txt = "123456233212091182231113150942998763";
-    // p = "2315";
-    // print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
-    // rk_alg(txt,p);
-
-    // txt = "2391351234231530542310615";
-    // p = "4261";
-    // print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
-    // rk_alg(txt,p);
-
-    txt = "1928374635"
-          "7765241328"
-          "0098718263"
-          "9876789653"
-          "1324657980"
-          "0897646102"
-          "1029384756"
-          "1111111111"
-          "1987263599"
-          "1232175844";
-    p = "652987767";
-    // print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
+    cout << "2x2 Pattern & 5x5 Text" << endl;
+    string txt = "1679822458836900021345711";
+    string p = "9013";
+    print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
     rk_alg(txt,p);
+
+    cout << "2x2 Pattern & 5x5 Text" << endl;
+    txt = "1234523321091182311115094";
+    p = "2315";
+    print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
+    rk_alg(txt,p);
+
+    cout << "2x2 Pattern & 5x5 Text" << endl;
+    txt = "2391351234231530542310615";
+    p = "4261";
+    print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
+    rk_alg(txt,p);
+
+    cout << "2x2 Pattern & 5x5 Text" << endl;
+    txt = "1928377652009879876713246";
+    p = "6598";
+    print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
+    rk_alg(txt,p);
+
+    // txt = "";
+    // p = "";
+    // string lines;
+    // string text;
+    // ifstream MyReadFile("octal.txt");
+    // srand(time(0));
+    // int i_index = rand() % 1000;
+    // int j_index = rand() % 900;
+    // int pat_index = rand() % 1000 - (100 * (16 - 1) - 16);
+
+    // int i = 0;
+    // while (getline(MyReadFile, lines)) {
+    //     if (i_index == i) {
+    //         text = lines;
+    //         break;
+    //     }
+    //     i++;
+    // }
+    // for (int i = j_index; i < j_index + 1000; i++) {
+    //     txt += text[i];
+    // }
+    // for (int i = 0; i < 16; i++) {
+    //     for (int j = 0; j < 16; j++) {
+    //         p += txt[pat_index +  (100 * i) + j];
+    //         // cout << txt[pat_index +  (100 * i) + j] << endl;
+    //     }
+    // }
+    // print_txt_pattern(txt, p, sqrt(txt.length()), sqrt(p.length()));
+    // rk_alg(txt,p);
+
     return 0;
 }
 

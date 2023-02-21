@@ -62,7 +62,7 @@ bool RabinKarp::check(const std::string &txt) const {
 
 RabinKarp::RabinKarp(const std::string &pat):pat(pat), R(256) {
   m = pat.size();
-  m_sqrt = sqrt(m);
+  m_sqrt = sqrt(m); //  variable to represent the conversion of the string of size M to an MxM matrix
   q = long_random_prime();
 
   RM = 1;
@@ -72,43 +72,65 @@ RabinKarp::RabinKarp(const std::string &pat):pat(pat), R(256) {
   pat_hash = hash(pat, m);
 }
 
+// ----------------------------------------------------------------- 
+// This method converts a string array to a regular string to help
+// with processing in other parts of the program
+// 
+// Version 1.1 
+// ---------------------------------------------------------- 
+std::string RabinKarp::strarr_to_str(std::string *hash_str) const {
+  std::string ret_str;
+  for (int i = 0; i < m; i++) {
+    ret_str += hash_str[i];
+  }
+  return ret_str;
+}
+
 int RabinKarp::search(const std::string &txt) const {
+  //  check if the size of the text is less than the size of the pattern
   int n = sqrt(txt.length());
-  // std::vector<std::vector<std::string>> p_search;
+  if (txt.length() < m) return -2;
+
+  //  variables to be used
   std::string* p_search = new std::string[m];
-  if (n < m) return -2;
-
-
-  long hashA, hashB, hasher;
-  int j, a, b, z;
-  std::string strA1, strA2, strB1, strB2;
+  long hash_long;
+  int j, a, b;
+  std::string hash_str;
   std::string checkStr = "";
 
+  //  Iterate through the text variable while interpretting
+  //  it as a 2D array.  Check for pattern matches
   for (int i = 0; i < n - m_sqrt + 1; i++) {
     j = 0;
     a = 0;
+    //  Retrieve all but the right most column for our pattern check
     while (a < m_sqrt) {
       p_search[(a*m_sqrt)] = txt[((i+a)*n)];
       a++;
     }
-    // j++;
+    //  Iterate through each row in the text variable
     for (; j < n - m_sqrt + 1; j++) {
-      // strB1 = txt[(i*n)+(j+1)];
-      // strB2 = txt[((i+1)*n)+(j+1)];
-      // hasher = hash((strA1 + strB1 + strA2 + strB2), m);
       a = 0;
+      //  Get the pattern to check starting from a specific index
       while (a < m_sqrt) {
-        p_search[(a*m_sqrt)+(j+a)] = txt[((i+a)*n)+(j+a)];
+        b = 1;
+        while (b < m_sqrt) {
+          p_search[(a*m_sqrt)+b] = txt[((i+a)*n)+(j+b)];
+          b++;
+        }
         a++;
       }
-      if (pat_hash == hasher) {
-        // checkStr = strA1 + strB1 + strA2 + strB2;
-        if (check(checkStr)) {
+      //  Hasing the pattern retrieved and checking if it is correct
+      hash_str = strarr_to_str(p_search);
+      hash_long = hash(hash_str, m);
+      if (pat_hash == hash_long) {
+        if (check(hash_str)) {
           return ((i*n)+j);
         }
       }
       a = 0;
-      while (a < (sizeof(p_search)/sizeof(p_search[0]))) {
+      //  Shifting all the columns 1 to the left
+      while (a < m) {
         p_search[a] = p_search[a+1];
         p_search[a+1] = "";
         a++;

@@ -27,6 +27,7 @@ private:
 
   long hash(const std::string &key, int m) const;
   bool check(const std::string &txt) const;
+  std::string strarr_to_str(std::string *hash_str) const;
 
   static long long_random_prime();
 

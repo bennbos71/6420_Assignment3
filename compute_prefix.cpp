@@ -39,13 +39,47 @@ string* compute_prefix(string P){
 }
 
 int main() {
-    string input = "01111000110101011010";
-    string* output = new string[input.length()];
-    output = compute_prefix(input);
+    //  Example 01 Input
+    string input1 = "ababaca";
+    string* output1 = new string[input1.length()];
+    output1 = compute_prefix(input1);
 
-    cout << input << "--->";
-    for (int i = 0; i < input.length(); i++) {
-        cout << "[" << output[i] << "]";
+    cout << input1 << "--->";
+    for (int i = 0; i < output1->size(); i++) {
+        cout << "[" << output1[i] << "]";
+    }
+    cout << endl;
+
+    //  Example 02 Input
+    string input2 = "01111000110101011010";
+    string* output2 = new string[input2.length()];
+    output2 = compute_prefix(input2);
+
+    cout << input2 << "--->";
+    for (int i = 0; i < output2->size(); i++) {
+        cout << "[" << output2[i] << "]";
+    }
+    cout << endl;
+
+    //  Example 03 Input
+    string input3 = "aaaaaaaabbbbbbbb";
+    string* output3 = new string[input3.length()];
+    output3 = compute_prefix(input3);
+
+    cout << input3 << "--->";
+    for (int i = 0; i < output3->size(); i++) {
+        cout << "[" << output3[i] << "]";
+    }
+    cout << endl;
+
+    //  Example 04 Input
+    string input4 = "abab";
+    string* output4 = new string[input4.length()];
+    output4 = compute_prefix(input4);
+
+    cout << input4 << "--->";
+    for (int i = 0; i < output4->size(); i++) {
+        cout << "[" << output4[i] << "]";
     }
     cout << endl;
 
